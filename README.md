@@ -2,12 +2,11 @@ This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next
 
 ## Getting Started
 
-First, run the development server:
-
+First, you need to have [bun](https://bun.sh/) and install dependencies, build the app and run production server
 ```bash
-npm run dev
-# or
-yarn dev
+bun run install
+bun run build
+bun run start
 ```
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
